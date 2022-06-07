@@ -22,13 +22,12 @@ public class ExerciciosAluno {
         aluno2.idade = 23;
         aluno2.nome = "Yuri";
         
-        
         //o método imprimir deve mostrar o nome e a idade do aluno juntos
-        //System.out.println("Aluno1 = " + aluno1.imprimir());
-        //System.out.println("Aluno2 = " + aluno2.imprimir());
+        aluno1.imprimir();
+        aluno2.imprimir();
         
         aluno2.fazAniversario();
-        //System.out.println("Aluno2 = " + aluno2.imprimir());
+        aluno2.imprimir();
         
         
     }
