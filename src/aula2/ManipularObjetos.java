@@ -12,25 +12,32 @@ public class ManipularObjetos {
     
     public static void main(String[] args) {
         
-        Modelo modelo = new Modelo("Chevrolet", "Opala");
+        Modelo objModelo = new Modelo("Chevrolet", "Opala");
         
         Carro objCarro1 = new Carro("123456", "Azul", "Chevrolet", 
-                modelo, 1980,1981);
+                objModelo, 1980,1981);
         
         Carro objCarro2 = new Carro();
-        objCarro2.setModelo(new Modelo("Chevrolet", "Opala"));
+        //objCarro2.setModelo(new Modelo("Chevrolet", "Opala"));
+        objCarro2.setModelo(objModelo);
         objCarro2.setAno_fabricacao(1980);
         objCarro2.setAno_modelo(1981);
         
-        //Qual dos carros é o mais novo?
-        if(objCarro1.getAno_fabricacao() > objCarro2.getAno_fabricacao()){
-            System.out.println("O carro 1 é o mais novo");
-        }else if(objCarro1.getAno_fabricacao() == objCarro2.getAno_fabricacao()){
-            System.out.println("Os carros são do mesmo ano");
-        }else{
-            System.out.println("O carro 2 é o mais novo");
-        }
+        //Qual dos 3 carros é o mais novo?
+        String objRetorno = obterCarroMaisNovo(objCarro1, objCarro2);
+        System.out.println("Carro mais novo: " + objRetorno);
         
+    }
+    
+    public static String obterCarroMaisNovo(Carro obj1, Carro obj2){
+        
+        if(obj1.getAno_fabricacao() > obj2.getAno_fabricacao()){
+            return obj1.toString();
+        }else if(obj1.getAno_fabricacao() == obj2.getAno_fabricacao()){
+            return "Os dois são iguais, que loucura!";
+        }else{
+            return obj2.toString();
+        }
         
     }
     
