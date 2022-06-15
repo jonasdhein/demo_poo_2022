@@ -47,7 +47,6 @@ public class TesteQuestionario {
         }
         
         System.out.println("Você acertou " + acertos + " de " + questoes.length);
-        
     }
     
 }
