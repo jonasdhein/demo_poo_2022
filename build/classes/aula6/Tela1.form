@@ -23,15 +23,14 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="lblTitulo" min="-2" pref="309" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="txtNumero1" alignment="0" pref="91" max="32767" attributes="0"/>
-                              <Component id="txtNumero2" alignment="0" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="txtNumero1" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
+                          <Component id="txtNumero2" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
@@ -46,17 +45,13 @@
                                   <Component id="txtResultado" alignment="0" min="-2" pref="91" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="cmbOperacoes" pref="0" max="32767" attributes="0"/>
+                              <Component id="cmbOperacoes" min="-2" pref="55" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblTitulo" min="-2" pref="309" max="-2" attributes="0"/>
+                      <Component id="btnCalcular" min="-2" pref="87" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnCalcular" min="-2" pref="87" max="-2" attributes="0"/>
               <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -97,9 +92,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNumero1">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNumero1ActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNumero2">
     </Component>
