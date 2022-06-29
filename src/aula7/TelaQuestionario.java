@@ -180,7 +180,6 @@ public class TelaQuestionario extends javax.swing.JFrame {
             Globais.exibirMensagem("Total de acertos: " + acertos + " de " + vetorQuestoes.length);
             System.exit(0);//feha o programa
         }
-        
     }
     
     /**
