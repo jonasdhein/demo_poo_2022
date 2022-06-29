@@ -1,5 +1,6 @@
 package aula3;
 
+import modelos.Questionario;
 import ferramentas.Entrada;
 
 /**

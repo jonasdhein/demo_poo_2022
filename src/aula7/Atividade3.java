@@ -18,14 +18,16 @@ public class Atividade3 {
         for (int i = 0; i < vetCidades.length; i++) {
             
             String nomeCidade;
-            do {                
+            do {
                 nomeCidade = Entrada.leiaString("Informe o nome de uma cidade");
             } while (cidadeExiste(nomeCidade));
             
             objCidade = new Cidade(i+1, nomeCidade);
             vetCidades[i] = objCidade;
             
+            System.out.println("ID: " + objCidade.getId());
         }
+        
     }
     
     private static boolean cidadeExiste(String cidade){

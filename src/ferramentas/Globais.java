@@ -1,6 +1,7 @@
 package ferramentas;
 
 import java.util.Random;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,6 +22,10 @@ public class Globais {
         } catch (Exception ex) {
             return 0;
         }
+    }
+    
+    public static void exibirMensagem(String mensagem){
+        JOptionPane.showMessageDialog(null, mensagem);
     }
 
 }
