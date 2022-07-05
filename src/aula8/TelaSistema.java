@@ -1,8 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package aula8;
+
+import ferramentas.Globais;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 /**
  *
@@ -26,10 +27,14 @@ public class TelaSistema extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         txtTexto = new javax.swing.JTextField();
         btGerarHash = new javax.swing.JButton();
         lblHash = new javax.swing.JLabel();
         btnLimpar = new javax.swing.JButton();
+        lblCopiarHash = new javax.swing.JLabel();
+
+        jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -44,19 +49,30 @@ public class TelaSistema extends javax.swing.JFrame {
 
         btnLimpar.setText("Limpar");
 
+        lblCopiarHash.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icone_copiar.png"))); // NOI18N
+        lblCopiarHash.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCopiarHashMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btGerarHash)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                            .addComponent(btnLimpar))
+                        .addComponent(txtTexto))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btGerarHash)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                        .addComponent(btnLimpar))
-                    .addComponent(txtTexto)
-                    .addComponent(lblHash, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblHash, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblCopiarHash)))
                 .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -69,7 +85,9 @@ public class TelaSistema extends javax.swing.JFrame {
                     .addComponent(btGerarHash)
                     .addComponent(btnLimpar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblHash)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHash)
+                    .addComponent(lblCopiarHash))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -78,8 +96,19 @@ public class TelaSistema extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btGerarHashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGerarHashActionPerformed
+        String hash = Globais.gerarMD5(txtTexto.getText());
+        
+        lblHash.setText(hash);
         
     }//GEN-LAST:event_btGerarHashActionPerformed
+
+    private void lblCopiarHashMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCopiarHashMouseClicked
+        StringSelection stringSelection = new StringSelection(lblHash.getText());
+        Clipboard objClipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        objClipboard.setContents(stringSelection, null);
+        
+        Globais.exibirMensagem("Texto copiado");//programador
+    }//GEN-LAST:event_lblCopiarHashMouseClicked
 
     /**
      * @param args the command line arguments
@@ -119,6 +148,8 @@ public class TelaSistema extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btGerarHash;
     private javax.swing.JButton btnLimpar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblCopiarHash;
     private javax.swing.JLabel lblHash;
     private javax.swing.JTextField txtTexto;
     // End of variables declaration//GEN-END:variables

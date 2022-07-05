@@ -4,7 +4,7 @@ package ferramentas;
  * TestaArquivo - versão 2.0
  * 
  * Instruções:
- * a) a construção do objeto (new) apenas define qual ser�á o nome físico do arquivo no disco
+ * a) a construção do objeto (new) apenas define qual será o nome físico do arquivo no disco
  * b) abrirLeitura() abre o arquivo para leitura, retornando falso se o arquivo não foi encontrado no disco
  * c) abrirEscrita() abre o arquivo para gravação, retornando falso se ocorreu algum erro
  * d) lerLinha() retorna uma linha lida do texto, avançando sempre para a linha seguinte. 

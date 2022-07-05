@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package aula8;
 
+import ferramentas.Arquivo;
 import ferramentas.Globais;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import modelos.Usuario;
 
 /**
@@ -16,13 +15,36 @@ public class TelaLogin extends javax.swing.JFrame {
     /**
      * Creates new form TelaLogin
      */
-    Usuario[] vetorUsuario = new Usuario[2];
+    //Usuario[] vetorUsuario = new Usuario[2];
+    ArrayList<Usuario> arrayUsuario = new ArrayList<>();
+    Usuario objUsuario;
+    Arquivo objArquivo;
     
     public TelaLogin() {
         initComponents();
         
-        vetorUsuario[0] = new Usuario("admin", "202cb962ac59075b964b07152d234b70");
-        vetorUsuario[1] = new Usuario("user", "310dcbbf4cce62f762a2aaa148d556bd");
+        objArquivo = new Arquivo("usuarios.txt");
+        if(objArquivo.abrirLeitura()){
+            
+            String linha;
+            String[] vetor;
+            do{
+                linha = objArquivo.lerLinha();
+                
+                if(linha != null){
+                    vetor = linha.split(";");
+
+                    objUsuario = new Usuario(vetor[0], vetor[1]);
+                    arrayUsuario.add(objUsuario);
+                }
+                
+            }while(linha != null);
+            
+            objArquivo.fecharArquivo();
+            
+        }else{
+            Globais.exibirMensagem("Não vai funcionar, se vira aí!");
+        }
         
     }
 
@@ -37,10 +59,10 @@ public class TelaLogin extends javax.swing.JFrame {
 
         btnEntrar = new javax.swing.JButton();
         txtUsuario = new javax.swing.JTextField();
-        txtSenha = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,6 +82,12 @@ public class TelaLogin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 12)); // NOI18N
         jLabel3.setText("Senha");
 
+        txtSenha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSenhaKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,16 +95,16 @@ public class TelaLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
                             .addComponent(txtUsuario)
-                            .addComponent(txtSenha)
-                            .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jLabel1)))
+                            .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(txtSenha))))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -106,12 +134,19 @@ public class TelaLogin extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEntrarActionPerformed
 
+    private void txtSenhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSenhaKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            funcaoLogin();
+        }
+    }//GEN-LAST:event_txtSenhaKeyPressed
+
     private void funcaoLogin(){
         String login = txtUsuario.getText();
         String senha = Globais.gerarMD5(txtSenha.getText());
         
-        if(vetorUsuario[0].getLogin().equals(login) && 
-                vetorUsuario[0].getSenha().equals(senha)){
+        boolean existe = validarLogin(login, senha);
+        
+        if(existe){
             
             TelaSistema tela = new TelaSistema();
             tela.setVisible(true); //coloca como visível a TelaSistema
@@ -120,6 +155,26 @@ public class TelaLogin extends javax.swing.JFrame {
         }else{
             Globais.exibirMensagem("Dados inválidos, tente novamente");
         }
+    }
+    
+    private boolean validarLogin(String usuario, String senha){
+        
+        boolean retorno = false;
+        
+        for (Usuario objUser : arrayUsuario) {
+            if(objUser.getLogin().equals(usuario) &&
+                objUser.getSenha().equals(senha)){
+                retorno = true;
+            }
+        }
+        
+        /*for (int i = 0; i < vetorUsuario.length; i++) {
+            if(vetorUsuario[i].getLogin().equals(usuario) &&
+                vetorUsuario[i].getSenha().equals(senha)){
+                retorno = true;               
+            }
+        }*/
+        return retorno;
     }
     
     /**
@@ -162,7 +217,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtSenha;
+    private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

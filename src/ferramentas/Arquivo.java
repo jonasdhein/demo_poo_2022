@@ -15,7 +15,7 @@ public class Arquivo
     private String nomeArquivo;
     private char status;
     
-    Arquivo( String nomeArquivo )
+    public Arquivo( String nomeArquivo )
     {
         this.nomeArquivo = nomeArquivo;
         status = 'C'; // Closed, Read, Write
