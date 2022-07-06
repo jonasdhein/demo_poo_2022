@@ -89,7 +89,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Helvetica Neue" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Usu&#xe1;rio"/>
+        <Property name="text" type="java.lang.String" value="Conta"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">

@@ -13,9 +13,9 @@ public class TestePix {
     
     public static void main(String[] args) {
         
-        ContaBanco objConta1 = new ContaBanco("111", "123", "Pedro", 1000, 300, "000");
-        ContaBanco objConta2 = new ContaBanco("222", "444", "Jorge", 400, 5000, "jdhein@univates.br");
-        ContaBanco objConta3 = new ContaBanco("333", "555", "João", 5000, 3000, "017");
+        ContaBanco objConta1 = new ContaBanco("111", "123", "Pedro", 1000, 300, "000", "");
+        ContaBanco objConta2 = new ContaBanco("222", "444", "Jorge", 400, 5000, "jdhein@univates.br", "");
+        ContaBanco objConta3 = new ContaBanco("333", "555", "João", 5000, 3000, "017", "");
         
         contas[0] = objConta1;
         contas[1] = objConta2;

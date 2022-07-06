@@ -1,9 +1,10 @@
-package aula8;
+package aula10;
 
 import ferramentas.Arquivo;
 import ferramentas.Globais;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import modelos.ContaBanco;
 import modelos.Usuario;
 
 /**
@@ -15,35 +16,61 @@ public class TelaLogin extends javax.swing.JFrame {
     /**
      * Creates new form TelaLogin
      */
-    //Usuario[] vetorUsuario = new Usuario[2];
-    ArrayList<Usuario> arrayUsuario = new ArrayList<>();
-    Usuario objUsuario;
+    ArrayList<ContaBanco> arrayContas = new ArrayList<>();
+    ContaBanco objContaBanco;
     Arquivo objArquivo;
     
     public TelaLogin() {
         initComponents();
         
-        objArquivo = new Arquivo("usuarios.txt");
-        if(objArquivo.abrirLeitura()){
+        try{
             
-            String linha;
-            String[] vetor;
-            do{
-                linha = objArquivo.lerLinha();
-                
-                if(linha != null){
-                    vetor = linha.split(";");
+            objArquivo = new Arquivo("contas.txt");
+            if(objArquivo.abrirLeitura()){
 
-                    objUsuario = new Usuario(vetor[0], vetor[1]);
-                    arrayUsuario.add(objUsuario);
-                }
-                
-            }while(linha != null);
-            
-            objArquivo.fecharArquivo();
-            
-        }else{
-            Globais.exibirMensagem("Não vai funcionar, se vira aí!");
+                String linha;
+                String[] vetor;
+
+                String agencia;
+                String conta;
+                String titular;
+                double saldo;
+                double chequeEspecial;
+                String chavePix;
+                String senha;
+
+                do{
+                    linha = objArquivo.lerLinha();
+
+                    if(linha != null && !linha.equals("")){
+                        vetor = linha.split(";");
+
+                        agencia = vetor[0];
+                        conta = vetor[1];
+                        titular = vetor[2];
+                        saldo = Double.parseDouble(vetor[3]);
+                        chequeEspecial = Double.parseDouble(vetor[4]);
+                        chavePix = vetor[5];
+                        senha = vetor[6];
+
+                        objContaBanco = new ContaBanco(agencia, conta, titular, 
+                                saldo, chequeEspecial, chavePix, senha);
+
+                        arrayContas.add(objContaBanco);
+                    }
+
+                }while(linha != null);
+
+                objArquivo.fecharArquivo();
+
+            }else{
+                Globais.exibirMensagem("Não foi possível localizar o arquivo de CONTAS");
+            }
+        
+        }catch(NumberFormatException ex){
+            System.out.println("ERRO DE CONVERSÃO: " + ex.getMessage());
+        }catch(Exception ex){
+            System.out.println("ERRO: " + ex.getMessage());
         }
         
     }
@@ -58,7 +85,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         btnEntrar = new javax.swing.JButton();
-        txtUsuario = new javax.swing.JTextField();
+        txtConta = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -102,7 +129,7 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(txtUsuario)
+                            .addComponent(txtConta)
                             .addComponent(btnEntrar, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                             .addComponent(txtSenha))))
                 .addContainerGap(57, Short.MAX_VALUE))
@@ -114,7 +141,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtConta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -141,15 +168,15 @@ public class TelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaKeyPressed
 
     private void funcaoLogin(){
-        String login = txtUsuario.getText();
+        String conta = txtConta.getText();
         String senha = Globais.gerarMD5(txtSenha.getText());
         
-        boolean existe = validarLogin(login, senha);
+        boolean existe = validarLogin(conta, senha);
         
         if(existe){
             
-            TelaSistema tela = new TelaSistema();
-            tela.setVisible(true); //coloca como visível a TelaSistema
+            //TelaSistema tela = new TelaSistema();
+            //tela.setVisible(true); //coloca como visível a TelaSistema
             dispose(); //fecha a tela atual
             
         }else{
@@ -157,13 +184,13 @@ public class TelaLogin extends javax.swing.JFrame {
         }
     }
     
-    private boolean validarLogin(String usuario, String senha){
+    private boolean validarLogin(String conta, String senha){
         
         boolean retorno = false;
         
-        for (Usuario objUser : arrayUsuario) {
-            if(objUser.getLogin().equals(usuario) &&
-                objUser.getSenha().equals(senha)){
+        for (ContaBanco objConta : arrayContas) {
+            if(objConta.getConta().equals(conta) &&
+                objConta.getSenha().equals(senha)){
                 retorno = true;
             }
         }
@@ -203,6 +230,7 @@ public class TelaLogin extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TelaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -217,7 +245,7 @@ public class TelaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JTextField txtConta;
     private javax.swing.JPasswordField txtSenha;
-    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

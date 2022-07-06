@@ -12,19 +12,21 @@ public class ContaBanco{
     private double saldo;
     private double chequeEspecial;
     private String chavePix;
+    private String senha;
 
     public ContaBanco(){
         
     }
     
     public ContaBanco(String agencia, String conta, String titular, double saldo, 
-            double chequeEspecial, String chavePix) {
+            double chequeEspecial, String chavePix, String senha) {
         this.agencia = agencia;
         this.conta = conta;
         this.titular = titular;
         this.saldo = saldo;
         this.chequeEspecial = chequeEspecial;
         this.chavePix = chavePix;
+        this.senha = senha;
     }
     
     public boolean saque(double valorSaque, boolean imprime){
@@ -109,6 +111,14 @@ public class ContaBanco{
     
     public String textoCombo(){
         return this.conta;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     @Override
