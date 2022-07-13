@@ -5,14 +5,12 @@ import ferramentas.Globais;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import modelos.ContaBanco;
-import modelos.Usuario;
 
 /**
  *
  * @author jonasdhein
  */
 public class TelaLogin extends javax.swing.JFrame {
-
     /**
      * Creates new form TelaLogin
      */
@@ -175,8 +173,11 @@ public class TelaLogin extends javax.swing.JFrame {
         
         if(existe){
             
-            //TelaSistema tela = new TelaSistema();
-            //tela.setVisible(true); //coloca como visível a TelaSistema
+            TelaMenu.objContaBanco = objContaBanco;
+            TelaMenu.arrContas = arrayContas;
+            
+            TelaMenu tela = new TelaMenu();
+            tela.setVisible(true); //coloca como visível a TelaSistema
             dispose(); //fecha a tela atual
             
         }else{
@@ -191,16 +192,11 @@ public class TelaLogin extends javax.swing.JFrame {
         for (ContaBanco objConta : arrayContas) {
             if(objConta.getConta().equals(conta) &&
                 objConta.getSenha().equals(senha)){
+                
+                objContaBanco = objConta;
                 retorno = true;
             }
         }
-        
-        /*for (int i = 0; i < vetorUsuario.length; i++) {
-            if(vetorUsuario[i].getLogin().equals(usuario) &&
-                vetorUsuario[i].getSenha().equals(senha)){
-                retorno = true;               
-            }
-        }*/
         return retorno;
     }
     

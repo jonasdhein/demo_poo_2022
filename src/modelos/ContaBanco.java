@@ -30,7 +30,7 @@ public class ContaBanco{
     }
     
     public boolean saque(double valorSaque, boolean imprime){
-        if(this.saldo >= valorSaque){
+        if((this.saldo + this.chequeEspecial) >= valorSaque){
             this.saldo -= valorSaque;
             if(imprime){
                 System.out.println("Saque efetuado no valor de R$ " + valorSaque);
