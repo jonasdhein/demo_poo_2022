@@ -2,7 +2,6 @@ package telas;
 
 import controladores.UsuarioController;
 import ferramentas.Globais;
-import java.awt.event.KeyEvent;
 import modelos.Usuario;
 
 /**
@@ -15,10 +14,12 @@ public class TelaUsuarios extends javax.swing.JFrame {
      * Creates new form TelaUsuarios
      */
     UsuarioController controller;
-    Usuario objeto;
     
     public TelaUsuarios() {
         initComponents();
+        
+        controller = new UsuarioController();
+        controller.preencher(tblUsuarios);
     }
 
     /**
@@ -30,9 +31,10 @@ public class TelaUsuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        lblId = new javax.swing.JLabel();
         txtConfirmarSenha = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
@@ -44,6 +46,21 @@ public class TelaUsuarios extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         btnLimpar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,13 +68,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Usuários");
 
-        jLabel2.setText("ID");
-
-        txtId.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtIdKeyPressed(evt);
-            }
-        });
+        lblId.setText("ID");
 
         jLabel3.setText("Confirmar Senha");
 
@@ -83,6 +94,19 @@ public class TelaUsuarios extends javax.swing.JFrame {
             }
         });
 
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblUsuarios);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,10 +114,12 @@ public class TelaUsuarios extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -120,10 +146,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
                                 .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnLimpar)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -135,12 +158,11 @@ public class TelaUsuarios extends javax.swing.JFrame {
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(lblId)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -155,7 +177,9 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
                     .addComponent(btnLimpar))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -167,14 +191,14 @@ public class TelaUsuarios extends javax.swing.JFrame {
             //validar os dados -> verificar se estao preenchidos
             if(validou){
                 
-                preencherObjeto();
-                
+                Usuario objeto = preencherObjeto();//vai estar preenchido nome, login e senha
+               
                 if(objeto != null){
                     
                     controller = new UsuarioController();
                     boolean retorno = false;
                     
-                    if(objeto.getId() > 0){
+                    if(objeto.getId() == 0){
                         retorno = controller.incluir(objeto);
                     }else{
                         retorno = controller.alterar(objeto);
@@ -193,36 +217,13 @@ public class TelaUsuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    private void txtIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyPressed
-        try{
-            
-            if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-                controller = new UsuarioController();
-                objeto = controller.buscar(Integer.parseInt(txtId.getText()));
-                if(objeto != null){
-                    txtNome.setText(objeto.getNome());
-                    txtUsuario.setText(objeto.getLogin());
-                    
-                    txtId.setEnabled(false);
-                    txtSenha.setText("");
-                    txtSenha.setEnabled(false);                    
-                    txtConfirmarSenha.setEnabled(false);
-                    txtConfirmarSenha.setText("");
-                }
-            }
-            
-        }catch(Exception ex){
-            System.out.println("ERRO: " + ex.getMessage());
-        }
-    }//GEN-LAST:event_txtIdKeyPressed
-
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         try{
             
             txtNome.setText("");
             txtUsuario.setText("");
 
-            txtId.setEnabled(true);
+            //txtId.setEnabled(true);
             txtSenha.setText("");
             txtSenha.setEnabled(true);                    
             txtConfirmarSenha.setEnabled(true);
@@ -250,10 +251,8 @@ public class TelaUsuarios extends javax.swing.JFrame {
     }
     
     private boolean validarCampos(){
-        if(txtId.getText().equals("")){
-            Globais.exibirMensagem("Informe corretamente o ID");
-            return false;
-        }else if(txtNome.getText().equals("")){
+        
+        if(txtNome.getText().equals("")){
             Globais.exibirMensagem("Informe corretamente o nome");
             return false;
         }else if(txtUsuario.getText().equals("")){
@@ -306,14 +305,17 @@ public class TelaUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lblId;
+    private javax.swing.JTable tblUsuarios;
     private javax.swing.JTextField txtConfirmarSenha;
-    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtSenha;
     private javax.swing.JTextField txtUsuario;

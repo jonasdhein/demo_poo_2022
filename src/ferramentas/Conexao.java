@@ -18,7 +18,7 @@ public class Conexao {
     private final static String DRIVER = "org.postgresql.Driver";
     private final static String URL = "jdbc:postgresql://pgsql01.redehost.com.br:5432/modelo";
     private final static String USER = "redehost";
-    private final static String PASS = "Uni3435$";  
+    private final static String PASS = "";  
     
     public static Connection con;
     public static Statement stmt;
