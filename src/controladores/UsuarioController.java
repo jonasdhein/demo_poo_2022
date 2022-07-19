@@ -59,7 +59,65 @@ public class UsuarioController {
     }
     
     //alterar
+    public boolean alterar(Usuario objeto){
+        try{
+            Conexao.abreConexao(); //abre uma conexao de acesso com o banco de dados
+            PreparedStatement stmt;
+            
+            //Preenche o comando a ser rodado no banco de dados
+            String wSql = " UPDATE usuarios SET nome = ?, login = ? WHERE id = ? ";
+            stmt = Conexao.con.prepareStatement(wSql);
+            stmt.setString(1, objeto.getNome());
+            stmt.setString(2, objeto.getLogin());
+            stmt.setInt(3, objeto.getId());
+            
+            stmt.executeUpdate();
+            
+            return true;
+            
+        }catch(SQLException ex){
+            System.out.println("ERRO: " + ex.getMessage());
+            return false;
+        }
+    }
+    
     //buscar
+    public Usuario buscar(int id){
+        Usuario objeto = null;
+        try{
+            
+            Conexao.abreConexao(); //abre uma conexao de acesso com o banco de dados
+            PreparedStatement stmt;
+            ResultSet rs; //responsável por armazenar o resultado do SELECT
+            
+            //Preenche o comando a ser rodado no banco de dados
+            String wSql = " SELECT * FROM usuarios WHERE id = ? ";
+            stmt = Conexao.con.prepareStatement(wSql);
+            stmt.setInt(1, id);
+            
+            rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                //encontrou
+                objeto = new Usuario();
+                objeto.setId(rs.getInt("id"));                
+                objeto.setLogin(rs.getString("login"));
+                objeto.setNome(rs.getString("nome"));
+                objeto.setSenha("");
+                
+                return objeto;
+                
+            }else{
+                return objeto;
+            }
+            
+        }catch(SQLException ex){
+            System.out.println("ERRO: " + ex.getMessage());
+            return null;
+        }
+    }
+    
+    
     //listar
     //excluir
     

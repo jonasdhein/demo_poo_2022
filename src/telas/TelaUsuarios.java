@@ -2,6 +2,7 @@ package telas;
 
 import controladores.UsuarioController;
 import ferramentas.Globais;
+import java.awt.event.KeyEvent;
 import modelos.Usuario;
 
 /**
@@ -14,6 +15,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
      * Creates new form TelaUsuarios
      */
     UsuarioController controller;
+    Usuario objeto;
     
     public TelaUsuarios() {
         initComponents();
@@ -41,6 +43,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        btnLimpar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,6 +52,12 @@ public class TelaUsuarios extends javax.swing.JFrame {
         jLabel1.setText("Cadastro de Usuários");
 
         jLabel2.setText("ID");
+
+        txtId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtIdKeyPressed(evt);
+            }
+        });
 
         jLabel3.setText("Confirmar Senha");
 
@@ -67,6 +76,13 @@ public class TelaUsuarios extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/user.png"))); // NOI18N
 
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,7 +95,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -100,12 +116,15 @@ public class TelaUsuarios extends javax.swing.JFrame {
                                             .addComponent(jLabel3)
                                             .addComponent(txtConfirmarSenha)
                                             .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnLimpar)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,8 +152,10 @@ public class TelaUsuarios extends javax.swing.JFrame {
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalvar)
+                    .addComponent(btnLimpar))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         pack();
@@ -146,15 +167,23 @@ public class TelaUsuarios extends javax.swing.JFrame {
             //validar os dados -> verificar se estao preenchidos
             if(validou){
                 
-                Usuario objUsuario = preencherObjeto();
+                preencherObjeto();
                 
-                if(objUsuario != null){
+                if(objeto != null){
+                    
                     controller = new UsuarioController();
-                    boolean retorno = controller.incluir(objUsuario);
+                    boolean retorno = false;
+                    
+                    if(objeto.getId() > 0){
+                        retorno = controller.incluir(objeto);
+                    }else{
+                        retorno = controller.alterar(objeto);
+                    }
+                    
                     if(retorno){
                         Globais.exibirMensagem("Sucesso!");
                     }else{
-                        Globais.exibirMensagem("Erro ao incluir usuário!");
+                        Globais.exibirMensagem("Erro ao salvar usuário!");
                     }
                 }
             }
@@ -164,11 +193,50 @@ public class TelaUsuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void txtIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdKeyPressed
+        try{
+            
+            if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+                controller = new UsuarioController();
+                objeto = controller.buscar(Integer.parseInt(txtId.getText()));
+                if(objeto != null){
+                    txtNome.setText(objeto.getNome());
+                    txtUsuario.setText(objeto.getLogin());
+                    
+                    txtId.setEnabled(false);
+                    txtSenha.setText("");
+                    txtSenha.setEnabled(false);                    
+                    txtConfirmarSenha.setEnabled(false);
+                    txtConfirmarSenha.setText("");
+                }
+            }
+            
+        }catch(Exception ex){
+            System.out.println("ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_txtIdKeyPressed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        try{
+            
+            txtNome.setText("");
+            txtUsuario.setText("");
+
+            txtId.setEnabled(true);
+            txtSenha.setText("");
+            txtSenha.setEnabled(true);                    
+            txtConfirmarSenha.setEnabled(true);
+            txtConfirmarSenha.setText("");
+            
+        }catch(Exception ex){
+            System.out.println("ERRO: " + ex.getMessage());
+        }
+    }//GEN-LAST:event_btnLimparActionPerformed
+
     private Usuario preencherObjeto(){
         try{
-            Usuario objeto = new Usuario();
+            objeto = new Usuario();
         
-            objeto.setId(Integer.parseInt(txtId.getText()));
             objeto.setNome(txtNome.getText());
             objeto.setLogin(txtUsuario.getText());
             objeto.setSenha(txtSenha.getText());
@@ -235,6 +303,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
