@@ -135,12 +135,12 @@ public class UsuarioController {
         Vector<String> cabecalhos = new Vector<String>();
         Vector dadosTabela = new Vector(); //receber os dados do banco
 
-        Icon iconeEditar = new ImageIcon("src\\imagens\\edit.png");
-        Icon iconeLixeira = new ImageIcon("src\\imagens\\delete.png");
+        Icon iconeEditar = new ImageIcon("edit.png");
+        Icon iconeLixeira = new ImageIcon("remove.png");
 
         cabecalhos.add("Id");
         cabecalhos.add("Nome");
-        cabecalhos.add("Editar");
+        //cabecalhos.add("Editar");
         cabecalhos.add("Excluir");
 
         ResultSet rs = null;
@@ -158,8 +158,7 @@ public class UsuarioController {
                 linha.add(rs.getInt("id"));
                 linha.add(rs.getString("nome"));
 
-                linha.add(iconeEditar);
-                linha.add(iconeLixeira);
+                linha.add("X");
 
                 dadosTabela.add(linha);
             }
@@ -197,10 +196,7 @@ public class UsuarioController {
                 case 1:
                     column.setPreferredWidth(200);//nome
                     break;
-                case 3:
-                    column.setPreferredWidth(10);//editar
-                    break;
-                case 4:
+                case 2:
                     column.setPreferredWidth(10);//excluir
                     break;
             }

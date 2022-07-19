@@ -18,8 +18,7 @@ public class TelaUsuarios extends javax.swing.JFrame {
     public TelaUsuarios() {
         initComponents();
         
-        controller = new UsuarioController();
-        controller.preencher(tblUsuarios);
+        atualizarTabela();
     }
 
     /**
@@ -105,6 +104,16 @@ public class TelaUsuarios extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblUsuariosMouseClicked(evt);
+            }
+        });
+        tblUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblUsuariosKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblUsuarios);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -198,14 +207,21 @@ public class TelaUsuarios extends javax.swing.JFrame {
                     controller = new UsuarioController();
                     boolean retorno = false;
                     
-                    if(objeto.getId() == 0){
-                        retorno = controller.incluir(objeto);
+                    if(lblId.getText().equals("ID")){
+                        
+                        if(txtSenha.getText().equals("") || !txtSenha.getText().equals(txtConfirmarSenha.getText())){
+                            Globais.exibirMensagem("Informe corretamente a senha");
+                        }else{
+                            retorno = controller.incluir(objeto);
+                        }
                     }else{
+                        objeto.setId(Integer.parseInt(lblId.getText()));
                         retorno = controller.alterar(objeto);
                     }
                     
                     if(retorno){
                         Globais.exibirMensagem("Sucesso!");
+                        limparTela();
                     }else{
                         Globais.exibirMensagem("Erro ao salvar usuário!");
                     }
@@ -220,23 +236,96 @@ public class TelaUsuarios extends javax.swing.JFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         try{
             
-            txtNome.setText("");
-            txtUsuario.setText("");
-
-            //txtId.setEnabled(true);
-            txtSenha.setText("");
-            txtSenha.setEnabled(true);                    
-            txtConfirmarSenha.setEnabled(true);
-            txtConfirmarSenha.setText("");
+            limparTela();
             
         }catch(Exception ex){
             System.out.println("ERRO: " + ex.getMessage());
         }
     }//GEN-LAST:event_btnLimparActionPerformed
 
+    private void atualizarTabela(){
+        controller = new UsuarioController();
+        controller.preencher(tblUsuarios);
+    }
+    
+    private void limparTela(){
+        
+        txtNome.setText("");
+        txtUsuario.setText("");
+
+        lblId.setText("ID");
+        txtSenha.setText("");
+        txtSenha.setEnabled(true);                    
+        txtConfirmarSenha.setEnabled(true);
+        txtConfirmarSenha.setText("");
+        
+        atualizarTabela();
+    }
+    
+    private void tblUsuariosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblUsuariosKeyPressed
+        
+    }//GEN-LAST:event_tblUsuariosKeyPressed
+
+    private void tblUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblUsuariosMouseClicked
+        try {
+            //pega a linha selecionada
+            int linhaSelecionada = tblUsuarios.getSelectedRow();
+
+            // Primeira coluna da linha
+            String codigo = tblUsuarios.getModel().getValueAt(linhaSelecionada, 0).toString();
+
+            //buscar no banco de dados o registro e preencher nos campos da tela
+            controller = new UsuarioController();
+            Usuario objeto = controller.buscar(Integer.parseInt(codigo));
+                
+            //Verifica se clicou na coluna 2 => EXCLUIR
+            if (tblUsuarios.isColumnSelected(2)) {
+                try {
+                    boolean wPergunta = Globais.pedirConfirmacao("Tem certeza de que deseja excluir?", "", 'p');
+                    if (wPergunta == true) {
+                        /*controller = new UsuarioController();
+                        boolean retorno = controller.excluir(codigo);
+                        if(retorno){
+                            limparTela();
+                            Globais.exibirMensagem("Registro excluído com sucesso");
+                        }else{
+                            Globais.exibirMensagem("Erro ao excluir");
+                        }*/
+                    }                    
+
+                } catch (Exception ex) {
+                    Globais.exibirMensagem("Erro: " + ex.getMessage());
+                }
+            }else{
+                if (objeto != null) {
+                    preencherCampos(objeto);
+                }
+            }
+
+
+        } catch (Exception ex) {
+            Globais.exibirMensagem(ex.getMessage());
+        }
+    }//GEN-LAST:event_tblUsuariosMouseClicked
+
+    private void preencherCampos(Usuario objeto){
+        try{
+            
+            lblId.setText(String.valueOf(objeto.getId()));
+            txtNome.setText(objeto.getNome());
+            txtUsuario.setText(objeto.getLogin());
+            
+            txtSenha.setEnabled(false);
+            txtConfirmarSenha.setEnabled(false);
+            
+        }catch(Exception ex){
+            System.out.println("ERRO: " + ex.getMessage());
+        }
+    }
+    
     private Usuario preencherObjeto(){
         try{
-            objeto = new Usuario();
+            Usuario objeto = new Usuario();
         
             objeto.setNome(txtNome.getText());
             objeto.setLogin(txtUsuario.getText());
@@ -257,9 +346,6 @@ public class TelaUsuarios extends javax.swing.JFrame {
             return false;
         }else if(txtUsuario.getText().equals("")){
             Globais.exibirMensagem("Informe corretamente o usuário");
-            return false;
-        }else if(txtSenha.getText().equals("") || !txtSenha.getText().equals(txtConfirmarSenha.getText())){
-            Globais.exibirMensagem("Informe corretamente a senha");
             return false;
         }
         
